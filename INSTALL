@@ -1,0 +1,42 @@
+ Requirements:
+	- PHP
+	- MySQL/MariaDB
+=============================
+
+Installation:
+------------------
+Place everything inside a folder that can be accessed from your webserver (e.g. /srv/http/blserv, /var/www/blsrv, etc.).
+Script_CustomMS.zip can be left out if you would rather keep the Blockland add-on needed to connect, private. Give this add-on to those who want to join servers on your master server.
+
+SQL Installation:
+------------------------
+CREATE USER 'username'@'localhost' IDENTIFIED BY "password";
+
+GRANT ALL ON database.* TO 'username'@'localhost';
+[edit includes/sql-config.php and modify the commands above to reflect what you have chosen]
+
+CREATE TABLE servers (
+ID INT(8) NOT NULL AUTO_INCREMENT,
+IP VARCHAR(20) DEFAULT "127.0.0.1",
+PORT INT(6) DEFAULT "28000",
+SERVERNAME TEXT DEFAULT NULL,
+PLAYERS INT(3) DEFAULT 1,
+MAXPLAYERS INT(3) DEFAULT 1,
+GAMEMODE VARCHAR(64) DEFAULT "Custom",
+PASSWORDED INT(1) DEFAULT 0,
+DEDICATED INT(1) DEFAULT 0,
+BRICKCOUNT INT(7) DEFAULT 0,
+BLID INT(8) DEFAULT 0,
+CSG INT(16) DEFAULT 1800,
+VER INT(3) DEFAULT 21,
+BUILD INT(6) DEFAULT 1931,
+UPTIME INT(64) DEFAULT 0,
+PRIMARY KEY(ID)
+);
+
+Auto-Removal of dead servers:
+-----------------------------------------------
+Add this to your cron or etc.:
+*/10 * * * * /usr/bin/php /location/of/your/master/server/files/includes/auto_removal.php
+
+[/usr/bin/php may vary between operating systems, check the documentation of your respective distro/OS]
